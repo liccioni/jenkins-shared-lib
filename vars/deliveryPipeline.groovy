@@ -17,11 +17,11 @@ def call(body) {
             stage('Test') {
                 steps {
                     sh './gradlew clean test --no-daemon'
-                    try {
+                    //try {
                         //sh './gradlew clean test --no-daemon'
-                    } finally {
-                        junit '**/build/test-results/test/*.xml' //make the junit test results available in any case (success & failure)
-                    }
+                    //} finally {
+                    //    junit '**/build/test-results/test/*.xml' //make the junit test results available in any case (success & failure)
+                    //}
                 }
             }
             stage('Deploy') {
