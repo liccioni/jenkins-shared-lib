@@ -25,5 +25,9 @@ def call(body) {
                 }
             }
         }
+        triggers {
+            cron('H */8 * * *')
+            pollSCM('* * * * *')
+        }
     }
 }
