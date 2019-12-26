@@ -11,7 +11,7 @@ def call(body) {
         stages {
             stage('Build') {
                 steps {
-                    echo toAlphanumeric(text: "a_B-c.1")
+                    echo toAlphanumeric(text: "a_B-c-dhhhh.1")
                 }
             }
             stage('Test') {
