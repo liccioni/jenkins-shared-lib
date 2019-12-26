@@ -9,6 +9,14 @@ def call(body) {
     podTemplate(label: label,
             serviceAccount: 'jenkins',
             containers: [
+
+                    containerTemplate(
+                            name: 'gradle',
+                            image: 'gradle:6.0.1-jdk8',
+                            ttyEnabled: true,
+                            command: 'cat'
+                    ),
+
                     containerTemplate(
                             name: 'docker',
                             image: 'docker:17.12.1-ce',
@@ -39,9 +47,7 @@ def call(body) {
                 }
             }
 
-            // Build and push image
-            container('docker') {
-
+            container('gradle') {
                 stage('Test') {
 
                     try {
@@ -54,7 +60,10 @@ def call(body) {
                         junit '**/build/test-results/test/*.xml'
                     }
                 }
+            }
 
+            // Build and push image
+            container('docker') {
 
                 stage('Build image') {
                     env.version = sh returnStdout: true, script: 'cat build.number'
