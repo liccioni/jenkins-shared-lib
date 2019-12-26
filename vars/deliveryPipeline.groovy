@@ -44,14 +44,12 @@ def call(body) {
                 stage('Build image') {
                     env.version = sh returnStdout: true, script: 'cat build.number'
                     withEnv(['VERSION=' + env.version.trim(), 'COMMIT=' + env.commit.trim()]) {
-                        dir('first-app') {
-                            sh """
-                docker build \
-                  -t liccioni/first-app:${VERSION}.${COMMIT}  \
-                  -t liccioni/first-app:latest \
-                  .
-              """
-                        }
+                        sh """
+                            docker build \
+                            -t liccioni/first-app:${VERSION}.${COMMIT}  \
+                            -t liccioni/first-app:latest \
+                            .
+                           """
                     }
                 }
 
