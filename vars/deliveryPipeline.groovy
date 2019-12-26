@@ -1,6 +1,6 @@
 def call(body) {
     // evaluate the body block, and collect configuration into the object
-    def pipelineParams= [:]
+    def pipelineParams = [:]
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = pipelineParams
     body()
@@ -41,6 +41,21 @@ def call(body) {
 
             // Build and push image
             container('docker') {
+
+                stage('Test') {
+
+                    try {
+                        sh './gradlew clean test' //run a gradle task
+                    } catch (ex) {
+
+                        echo ex.message
+
+                    } finally {
+                        junit '**/build/test-results/test/*.xml'
+                    }
+                }
+
+
                 stage('Build image') {
                     env.version = sh returnStdout: true, script: 'cat build.number'
                     withEnv(['VERSION=' + env.version.trim(), 'COMMIT=' + env.commit.trim()]) {
@@ -54,7 +69,7 @@ def call(body) {
                 }
 
                 stage('Push image') {
-                    withDockerRegistry([credentialsId: 'docker-hub-user']) {
+                    withDockerRegistry([credentialsId: 'docker-registry-credentials', url: 'http://docker-registry:5000']) {
                         withEnv(['VERSION=' + env.VERSION.trim(), 'COMMIT=' + env.COMMIT.trim()]) {
                             sh "docker push liccioni/first-app:${VERSION}.${COMMIT}"
                             sh 'docker push liccioni/first-app:latest'
