@@ -51,7 +51,7 @@ def call(body) {
                 stage('Test') {
 
                     try {
-                        sh './gradlew clean test' //run a gradle task
+                        sh 'gradle clean test --no-daemon' //run a gradle task
                     } catch (ex) {
 
                         echo ex.message
