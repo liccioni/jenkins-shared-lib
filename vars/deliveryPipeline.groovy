@@ -5,8 +5,6 @@ def call(body) {
     body.delegate = pipelineParams
     body()
 
-    properties([pipelineTriggers([pollSCM('* * * * *')])])
-
     def label = "mypod-${UUID.randomUUID().toString()}"
     podTemplate(label: label,
             serviceAccount: 'jenkins',
@@ -92,8 +90,8 @@ def call(body) {
                 stage('Push image') {
                     withDockerRegistry([credentialsId: 'docker-registry-credentials', url: 'http://docker-registry:5000']) {
                         withEnv(['VERSION=' + env.VERSION.trim(), 'COMMIT=' + env.COMMIT.trim()]) {
-                            sh "docker push liccioni/first-app:${VERSION}.${COMMIT}"
-                            sh 'docker push liccioni/first-app:latest'
+                            sh "docker push docker-registry:5000/liccioni/first-app:${VERSION}.${COMMIT}"
+                            sh 'docker push docker-registry:5000/liccioni/first-app:latest'
                         }
                     }
                 }
