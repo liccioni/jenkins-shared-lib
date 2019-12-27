@@ -80,8 +80,8 @@ def call(body) {
                     withEnv(['VERSION=' + env.version.trim(), 'COMMIT=' + env.commit.trim()]) {
                         sh """
                             docker build \
-                            -t liccioni/first-app:${VERSION}.${COMMIT}  \
-                            -t liccioni/first-app:latest \
+                            -t docker-registry:5000/liccioni/first-app:${VERSION}.${COMMIT}  \
+                            -t docker-registry:5000/liccioni/first-app:latest \
                             .
                            """
                     }
