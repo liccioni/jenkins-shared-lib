@@ -54,7 +54,7 @@ def call(body) {
                 stage('Test') {
 
                     try {
-                        sh './gradlew build -x test'
+                        sh './gradlew build'
                     } catch (ex) {
 
                         echo ex.message
