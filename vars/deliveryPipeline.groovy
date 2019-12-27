@@ -5,6 +5,8 @@ def call(body) {
     body.delegate = pipelineParams
     body()
 
+    properties([pipelineTriggers([pollSCM('* * * * *')])])
+
     def label = "mypod-${UUID.randomUUID().toString()}"
     podTemplate(label: label,
             serviceAccount: 'jenkins',
