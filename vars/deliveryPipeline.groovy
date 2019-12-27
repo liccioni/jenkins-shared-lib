@@ -47,21 +47,22 @@ def call(body) {
                 }
             }
 
-            container('gradle') {
-                stage('Test') {
+            container('docker') {
+                container('gradle') {
+                    stage('Test') {
 
-                    try {
-                        sh 'gradle clean test' //run a gradle task
-                    } catch (ex) {
+                        try {
+                            sh 'gradle clean test' //run a gradle task
+                        } catch (ex) {
 
-                        echo ex.message
+                            echo ex.message
 
-                    } finally {
-                        junit '**/build/test-results/test/*.xml'
+                        } finally {
+                            junit '**/build/test-results/test/*.xml'
+                        }
                     }
                 }
             }
-
             // Build and push image
             container('docker') {
 
