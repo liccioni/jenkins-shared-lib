@@ -11,10 +11,13 @@ def call(body) {
             containers: [
 
                     containerTemplate(
-                            name: 'gradle',
-                            image: 'gradle:6.0.1-jdk8',
+                            name: 'docker-compose',
+                            image: 'docker/compose',
                             ttyEnabled: true,
-                            command: 'cat'
+                            command: 'cat',
+                            envVars: [
+                                    envVar(key: 'DOCKER_HOST', value: 'tcp://dind:2375')
+                            ]
                     ),
 
                     containerTemplate(
@@ -47,7 +50,7 @@ def call(body) {
                 }
             }
 
-            container('jnlp') {
+            container('docker-compose') {
                 stage('Test') {
 
                     try {
