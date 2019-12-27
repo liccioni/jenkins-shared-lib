@@ -11,6 +11,13 @@ def call(body) {
             containers: [
 
                     containerTemplate(
+                            name: 'gradle',
+                            image: 'gradle:6.0.1-jdk8',
+                            ttyEnabled: true,
+                            command: 'cat'
+                    ),
+
+                    containerTemplate(
                             name: 'docker-compose',
                             image: 'docker/compose',
                             ttyEnabled: true,
@@ -50,11 +57,11 @@ def call(body) {
                 }
             }
 
-            container('jnlp') {
+            container('gradle') {
                 stage('Test') {
 
                     try {
-                        sh './gradlew build'
+                        sh 'gradle build'
                     } catch (ex) {
 
                         echo ex.message
