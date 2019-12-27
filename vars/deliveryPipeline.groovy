@@ -50,11 +50,11 @@ def call(body) {
                 }
             }
 
-            container('docker-compose') {
+            container('jnlp') {
                 stage('Test') {
 
                     try {
-                        sh './gradlew clean test' //run a gradle task
+                        sh './gradlew build -x test'
                     } catch (ex) {
 
                         echo ex.message
