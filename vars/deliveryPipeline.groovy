@@ -10,7 +10,7 @@ def call(body) {
             containerTemplate(name: 'gradle', image: 'gradle:6.0.1-jdk8', ttyEnabled: true, command: 'cat'),
 //            containerTemplate(name: 'docker-compose', image: 'docker/compose', ttyEnabled: true, command: 'cat', envVars: [envVar(key: 'DOCKER_HOST', value: 'tcp://dind.docker:2375')]),
             containerTemplate(name: 'docker', image: 'docker:17.12.1-ce', ttyEnabled: true, command: 'cat', envVars: [envVar(key: 'DOCKER_HOST', value: 'tcp://dind.docker:2375')]),
-            containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:v2.8.1', ttyEnabled: true, command: 'cat')],
+            containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:v3.0.2', ttyEnabled: true, command: 'cat')],
             volumes: [
                     hostPathVolume(mountPath: '/home/gradle/.gradle', hostPath: '/tmp/jenkins/.gradle'),
                     emptyDirVolume(mountPath: '/var/lib/docker', memory: false)
