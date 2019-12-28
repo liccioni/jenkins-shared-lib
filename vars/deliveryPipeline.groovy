@@ -8,7 +8,7 @@ def call(body) {
     def label = "worker-${UUID.randomUUID().toString()}"
     podTemplate(label: label, serviceAccount: 'jenkins', containers: [
             containerTemplate(name: 'gradle', image: 'gradle:6.0.1-jdk8', ttyEnabled: true, command: 'cat'),
-            containerTemplate(name: 'docker-compose', image: 'docker/compose', ttyEnabled: true, command: 'cat', envVars: [envVar(key: 'DOCKER_HOST', value: 'tcp://dind.docker:2375')]),
+//            containerTemplate(name: 'docker-compose', image: 'docker/compose', ttyEnabled: true, command: 'cat', envVars: [envVar(key: 'DOCKER_HOST', value: 'tcp://dind.docker:2375')]),
             containerTemplate(name: 'docker', image: 'docker:17.12.1-ce', ttyEnabled: true, command: 'cat', envVars: [envVar(key: 'DOCKER_HOST', value: 'tcp://dind.docker:2375')]),
             containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:v2.8.1', ttyEnabled: true, command: 'cat')],
             volumes: [
@@ -17,6 +17,12 @@ def call(body) {
             ]) {
 
         node(label) {
+
+//            def myRepo = checkout scm
+//            def gitCommit = myRepo.GIT_COMMIT
+//            def gitBranch = myRepo.GIT_BRANCH
+//            def shortGitCommit = "${gitCommit[0..10]}"
+//            def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
 
             // Checkout code
             container('jnlp') {
@@ -28,14 +34,9 @@ def call(body) {
 
             container('gradle') {
                 stage('Test') {
-
                     try {
                         sh 'gradle build'
-                    } catch (ex) {
-
-                        echo ex.message
-
-                    } finally {
+                    }finally {
                         junit '**/build/test-results/test/*.xml'
                     }
                 }
