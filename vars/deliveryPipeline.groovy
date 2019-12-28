@@ -23,7 +23,7 @@ def call(body) {
                             ttyEnabled: true,
                             command: 'cat',
                             envVars: [
-                                    envVar(key: 'DOCKER_HOST', value: 'tcp://dind:2375')
+                                    envVar(key: 'DOCKER_HOST', value: 'tcp://dind.docker:2375')
                             ]
                     ),
 
@@ -33,7 +33,7 @@ def call(body) {
                             ttyEnabled: true,
                             command: 'cat',
                             envVars: [
-                                    envVar(key: 'DOCKER_HOST', value: 'tcp://dind:2375')
+                                    envVar(key: 'DOCKER_HOST', value: 'tcp://dind.docker:2375')
                             ]
                     ),
                     containerTemplate(
