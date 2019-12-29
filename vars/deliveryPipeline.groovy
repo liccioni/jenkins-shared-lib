@@ -77,7 +77,7 @@ def call(body) {
                   --namespace production \
                   --set image.repository=docker-registry:5000/liccioni/first-app \
                   --set image.tag=${VERSION}.${COMMIT} \
-                  --set ingress.enabled=true \
+                  --set ingress.enabled=false \
                   --set ingress.hosts[0]=first-app-cicd.192.168.26.11.nip.io \
                   first-app
               """
