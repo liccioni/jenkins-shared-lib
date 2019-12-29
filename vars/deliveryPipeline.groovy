@@ -75,7 +75,7 @@ def call(body) {
                             sh """
                 helm upgrade --install first-app \
                   --namespace production \
-                  --set image.repository=docker-registry:5000/liccioni/first-app \
+                  --set image.repository=docker-registry.192.168.26.11.nip.io/liccioni/first-app \
                   --set image.tag=${VERSION}.${COMMIT} \
                   --set ingress.enabled=false \
                   --set ingress.hosts[0]=first-app-cicd.192.168.26.11.nip.io \
