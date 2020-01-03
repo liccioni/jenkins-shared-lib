@@ -50,18 +50,18 @@ def call(body) {
                     withEnv(['VERSION=' + env.version.trim(), 'COMMIT=' + env.commit.trim()]) {
                         sh """
                             docker build \
-                            -t docker-registry:5000/liccioni/first-app:${VERSION}.${COMMIT}  \
-                            -t docker-registry:5000/liccioni/first-app:latest \
+                            -t docker-registry.192.168.26.11.nip.io/liccioni/first-app:${VERSION}.${COMMIT}  \
+                            -t docker-registry.192.168.26.11.nip.io/liccioni/first-app:latest \
                             .
                            """
                     }
                 }
 
                 stage('Push image') {
-                    withDockerRegistry([credentialsId: 'docker-registry-credentials', url: 'http://docker-registry:5000']) {
+                    withDockerRegistry([credentialsId: 'docker-registry-credentials', url: 'https://docker-registry.192.168.26.11.nip.io']) {
                         withEnv(['VERSION=' + env.VERSION.trim(), 'COMMIT=' + env.COMMIT.trim()]) {
-                            sh "docker push docker-registry:5000/liccioni/first-app:${VERSION}.${COMMIT}"
-                            sh 'docker push docker-registry:5000/liccioni/first-app:latest'
+                            sh "docker push docker-registry.192.168.26.11.nip.io/liccioni/first-app:${VERSION}.${COMMIT}"
+                            sh 'docker push docker-registry.192.168.26.11.nip.io/liccioni/first-app:latest'
                         }
                     }
                 }
